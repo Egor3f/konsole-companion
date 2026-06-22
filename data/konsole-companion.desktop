@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Konsole Tab Sets
+Comment=Save and restore sets of Konsole tabs
+Exec=konsole-companion
+Icon=utilities-terminal
+Categories=Utility;Qt;KDE;
+Terminal=false

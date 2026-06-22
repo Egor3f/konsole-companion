@@ -1,0 +1,12 @@
+[Unit]
+Description=Konsole theme/profile companion daemon
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/konsole-companion-daemon
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

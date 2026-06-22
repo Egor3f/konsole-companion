@@ -1,0 +1,17 @@
+[project]
+name = "konsole-companion"
+version = "0.1.0"
+description = "Theme-synced profiles and tab-set manager for KDE Konsole"
+requires-python = ">=3.10"
+dependencies = ["PySide6"]
+
+[project.scripts]
+konsole-companion = "konsole_companion.gui:main"
+konsole-companion-daemon = "konsole_companion.daemon:main"
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
