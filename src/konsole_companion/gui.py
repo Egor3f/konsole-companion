@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 
+from PySide6.QtGui import QBrush, QColor
 from PySide6.QtWidgets import (
     QApplication,
     QHBoxLayout,
@@ -89,7 +90,7 @@ class ManagerWindow(QWidget):
         if not has:
             return
         for tab in tabsets.load(name):
-            QTreeWidgetItem(
+            item = QTreeWidgetItem(
                 self.preview,
                 [
                     tab.get("name") or "(default)",
@@ -97,6 +98,9 @@ class ManagerWindow(QWidget):
                     tab.get("directory", ""),
                 ],
             )
+            color = tab.get("color")
+            if color:
+                item.setForeground(0, QBrush(QColor(color)))
 
     def _save_current(self):
         tabs = tabsets.capture()

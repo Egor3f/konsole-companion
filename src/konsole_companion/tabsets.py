@@ -35,7 +35,12 @@ def capture(window_id: str | None = None) -> list[dict]:
     for sid in sids:
         t = k.capture_tab(sid)
         tabs.append(
-            {"profile": t.profile, "directory": t.directory, "name": t.name}
+            {
+                "profile": t.profile,
+                "directory": t.directory,
+                "name": t.name,
+                "color": t.color,
+            }
         )
     return tabs
 
@@ -78,5 +83,7 @@ def restore(name: str, window_id: str | None = None) -> int:
         )
         if t.get("name"):
             k.set_tab_title_format(sid, t["name"])
+        if t.get("color"):
+            k.set_tab_color(sid, t["color"])
         created += 1
     return created

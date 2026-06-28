@@ -21,6 +21,7 @@ class Tab:
     profile: str
     directory: str
     name: str | None
+    color: str | None
 
 
 def _bus() -> QDBusConnection:
@@ -122,11 +123,21 @@ class Konsole:
             return fmt
         return None
 
+    def tab_color(self, sid: str) -> str | None:
+        color = self._session_call(sid, "tabColor")[0]
+        if not color or color == "#000000":
+            return None
+        return color
+
+    def set_tab_color(self, sid: str, color: str) -> None:
+        self._session_call(sid, "setTabColor", color)
+
     def capture_tab(self, sid: str) -> Tab:
         return Tab(
             profile=self.profile(sid),
             directory=self.cwd(sid) or "",
             name=self.custom_name(sid),
+            color=self.tab_color(sid),
         )
 
 
