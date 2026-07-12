@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import os
 
-from . import konsole
+from . import config, konsole, theme
 
 DATA_DIR = os.path.join(
     os.environ.get("XDG_DATA_HOME", os.path.expanduser("~/.local/share")),
@@ -76,11 +76,17 @@ def restore(name: str, window_id: str | None = None) -> int:
         window_id = k.current_window()
     if window_id is None:
         return 0
+    is_dark = theme.current_is_dark()
+    pairs = config.load()["pairs"] if is_dark is not None else []
+    known = set(k.profile_list())
     created = 0
     for t in tabs:
-        sid = k.new_session(
-            window_id, t.get("profile") or "", t.get("directory") or ""
-        )
+        profile = t.get("profile") or ""
+        if profile and pairs:
+            target = config.target_profile(profile, is_dark, pairs)
+            if target and target in known:
+                profile = target
+        sid = k.new_session(window_id, profile, t.get("directory") or "")
         if t.get("name"):
             k.set_tab_title_format(sid, t["name"])
         if t.get("color"):

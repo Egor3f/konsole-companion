@@ -17,6 +17,12 @@ def apply_theme(is_dark: bool) -> int:
             current = k.profile(sid)
             target = config.target_profile(current, is_dark, pairs)
             if target and target != current and target in known:
+                name = k.custom_name(sid)
+                color = k.tab_color(sid)
                 k.set_profile(sid, target)
+                if name:
+                    k.set_tab_title_format(sid, name)
+                if color:
+                    k.set_tab_color(sid, color)
                 switched += 1
     return switched

@@ -32,6 +32,19 @@ def _is_dark(value) -> bool | None:
     return n == 1
 
 
+def current_is_dark() -> bool | None:
+    iface = QDBusInterface(
+        PORTAL_SERVICE, PORTAL_PATH, SETTINGS_IFACE,
+        QDBusConnection.sessionBus(),
+    )
+    msg = iface.call("ReadOne", NAMESPACE, KEY)
+    if msg.type() == QDBusMessage.MessageType.ErrorMessage:
+        msg = iface.call("Read", NAMESPACE, KEY)
+    if msg.type() == QDBusMessage.MessageType.ErrorMessage:
+        return None
+    return _is_dark(msg.arguments()[0])
+
+
 class ThemeWatcher(QObject):
     changed = Signal(bool)
 
@@ -49,16 +62,7 @@ class ThemeWatcher(QObject):
             raise RuntimeError("failed to subscribe to portal SettingChanged")
 
     def current_is_dark(self) -> bool | None:
-        iface = QDBusInterface(
-            PORTAL_SERVICE, PORTAL_PATH, SETTINGS_IFACE,
-            QDBusConnection.sessionBus(),
-        )
-        msg = iface.call("ReadOne", NAMESPACE, KEY)
-        if msg.type() == QDBusMessage.MessageType.ErrorMessage:
-            msg = iface.call("Read", NAMESPACE, KEY)
-        if msg.type() == QDBusMessage.MessageType.ErrorMessage:
-            return None
-        return _is_dark(msg.arguments()[0])
+        return current_is_dark()
 
     @Slot(str, str, QDBusVariant)
     def _on_setting_changed(self, namespace: str, key: str, value) -> None:
