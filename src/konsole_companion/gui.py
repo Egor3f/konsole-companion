@@ -109,7 +109,9 @@ class ManagerWindow(QWidget):
                 self, "No tabs", "No running Konsole session was found."
             )
             return
-        name, ok = QInputDialog.getText(self, "Save tab set", "Name:")
+        name, ok = QInputDialog.getText(
+            self, "Save tab set", "Name:", text=self._selected() or ""
+        )
         name = name.strip()
         if not ok or not name:
             return
