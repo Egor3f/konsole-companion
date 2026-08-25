@@ -1,8 +1,9 @@
 # konsole-companion
 
-A GUI for saving and restoring sets of KDE Konsole tabs, driven over D-Bus.
+A GUI and a background daemon for KDE Konsole, driven over D-Bus.
 
-Save named sets of tabs (path, name, profile, color) and restore them into the current window.
+- **Tab sets** — save named sets of tabs (path, name, profile, color) and restore them into the current window.
+- **Tab guard** — a daemon that reapplies each tab's name and color after Konsole switches profiles on a system light/dark change, which otherwise clears them.
 
 ## Requirements
 
@@ -31,10 +32,12 @@ cd konsole-companion
 pipx install --system-site-packages .
 ```
 
-Install the desktop entry:
+Install the desktop entry and start the tab guard:
 
 ```sh
 install -Dm644 data/konsole-companion.desktop ~/.local/share/applications/
+install -Dm644 data/konsole-companion-daemon.service ~/.config/systemd/user/
+systemctl --user enable --now konsole-companion-daemon.service
 ```
 
 ## Setup
@@ -44,7 +47,10 @@ Enable Konsole's D-Bus control once, in Settings → Configure Konsole → Gener
 
 ## Run
 
-Launch `konsole-companion` to open the tab-set manager.
+| Command | Action |
+|---|---|
+| `konsole-companion` | open the tab-set manager |
+| `konsole-companion-daemon` | run the tab guard (the systemd unit does this) |
 
 ## Credits
 
