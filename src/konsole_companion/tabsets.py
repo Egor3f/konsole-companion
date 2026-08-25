@@ -78,9 +78,7 @@ def restore(name: str, window_id: str | None = None) -> int:
         return 0
     created = 0
     for t in tabs:
-        sid = k.new_session(
-            window_id, t.get("profile") or "", t.get("directory") or ""
-        )
+        sid = k.new_session(window_id, "", t.get("directory") or "")
         if t.get("name"):
             k.set_tab_title_format(sid, t["name"])
         if t.get("color"):

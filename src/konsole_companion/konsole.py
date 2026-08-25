@@ -85,7 +85,7 @@ class Konsole:
         self, window_id: str, profile: str = "", directory: str = ""
     ) -> str:
         path = f"/Windows/{window_id}"
-        if profile and directory:
+        if directory:
             args = _call(self.service, path, WINDOW_IFACE, "newSession", profile, directory)
         elif profile:
             args = _call(self.service, path, WINDOW_IFACE, "newSession", profile)
