@@ -9,11 +9,19 @@ A GUI and a background daemon for KDE Konsole, driven over D-Bus.
 
 - KDE Konsole
 - Python ≥ 3.10
-- PySide6 from your distribution's package manager
+- PySide6 (PySde6 ships icompiled Qt plugins, so use the distro package, not the PyPI wheel.)
 
-PySide6 ships compiled Qt plugins, so use the distro package, not the PyPI wheel.
+## Install from AUR (arch only)
 
-## Install
+```sh
+yay -S konsole-companion-git
+```
+or 
+```sh
+paru -S konsole-companion-git
+```
+
+## Manual install
 
 Install the dependencies:
 
@@ -54,4 +62,4 @@ Enable Konsole's D-Bus control once, in Settings → Configure Konsole → Gener
 
 ## Credits
 
-Built by Egor3f together with Claude (Anthropic).
+Built by Egor3f with Claude (Anthropic).
